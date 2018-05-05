@@ -17,7 +17,13 @@ const invoke = (event, cb) => {
   switch (action || resource) {
 
   case 'create':
-    return {};
+    return db.put(body);
+
+  case 'get':
+    return db.get(body);
+
+  case 'delete':
+    return db.remove(body);
 
   default:
     return Promise.reject(Error('Invalid request'));
