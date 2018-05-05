@@ -25,6 +25,7 @@ const invoke = (event, cb) => {
 };
 
 module.exports.handler = (event, context, cb) => {
+  console.log({ event });
   const { accessKey } = event;
 
   if (accessKey === apiKey) return invoke(cb, event);
