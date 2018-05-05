@@ -13,8 +13,8 @@ deployment:
   staging:
     branch: staging
     commands:
-      - ./deploy.sh seekteam-staging
+      - bash ./deploy.sh seekteam-staging
   production:
     branch: production
     commands:
-      - ./deploy.sh seekteam-lambda
+      - bash ./deploy.sh seekteam-lambda
