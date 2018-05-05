@@ -1,0 +1,20 @@
+machine:
+  pre:
+    - sudo apt update
+  node:
+    version: 6.10
+
+dependencies:
+  override:
+    - sudo apt install awscli
+    - npm install
+
+deployment:
+  staging:
+    branch: staging
+    commands:
+      - ./deploy.sh seekteam-staging
+  production:
+    branch: production
+    commands:
+      - ./deploy.sh seekteam-lambda
