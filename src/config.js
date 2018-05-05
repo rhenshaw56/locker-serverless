@@ -1,6 +1,6 @@
 import convict from 'convict';
 
-const config = convict.config({
+const config = convict({
   lambdaAccessKey: {
     doc: 'API key to limit unathenticated access to lambda',
     format: 'String',
