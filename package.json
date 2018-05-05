@@ -31,10 +31,14 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
+    "grunt": "^1.0.2",
+    "grunt-aws-lambda": "^0.13.0",
+    "grunt-es6-import-validate": "0.0.7",
     "nodemon": "^1.17.3"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "convict": "^4.2.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "morgan": "^1.9.0",

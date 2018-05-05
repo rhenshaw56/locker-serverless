@@ -1,14 +1,16 @@
+// import config from './config';
 
 const welcomeMessage = {
-  "message": "Welcome to aws lambda"
+  message: 'Welcome to aws lambda'
 };
-const apiKey = process.env.LAMBDA_AUTH;
-const invoke = cb => cb(null, {welcomeMessage});
+
+const apiKey = config.get('lambdaAccessKey');
+
+const invoke = cb => cb(null, { welcomeMessage });
 
 module.exports.handler = (event, context, cb) => {
-  const { authorizationToken } = event;
+  const { accessKey } = event;
 
-  const apiKey = config.get('exportsApiKey');
-  if (authorizationToken === apiKey) return invoke(cb);
-
+  // if (accessKey === apiKey) return invoke(cb);
+  return invoke(cb);
 };
