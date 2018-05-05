@@ -1,10 +1,6 @@
 import config from './config';
 import * as db from './lib/db';
 
-const welcomeMessage = {
-  message: 'Welcome to aws lambda'
-};
-
 const apiKey = config.get('lambdaAccessKey');
 
 const invoke = (event, cb) => {
