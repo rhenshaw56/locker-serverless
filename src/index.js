@@ -1,10 +1,6 @@
 import config from './config';
 import * as db from './lib/db';
 
-const welcomeMessage = {
-  message: 'Welcome to aws lambda'
-};
-
 const apiKey = config.get('lambdaAccessKey');
 
 const invoke = (event, cb) => {
@@ -17,7 +13,13 @@ const invoke = (event, cb) => {
   switch (action || resource) {
 
   case 'create':
-    return {};
+    return db.put(body);
+
+  case 'get':
+    return db.get(body);
+
+  case 'delete':
+    return db.remove(body);
 
   default:
     return Promise.reject(Error('Invalid request'));
@@ -25,7 +27,8 @@ const invoke = (event, cb) => {
 };
 
 module.exports.handler = (event, context, cb) => {
+  console.log({ event });
   const { accessKey } = event;
 
-  if (accessKey === apiKey) invoke(event).then(response => cb(null, response));
+  if (accessKey === apiKey) return invoke(event).then(response => cb(null, response));
 };
