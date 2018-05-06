@@ -13,14 +13,16 @@ const stagingDB = config.get('staging_db');
 const productionDB = config.get('production_db');
 
 const tableName = process.env.NODE_ENV === 'production' ? productionDB : stagingDB;
+console.log({tableName});
 
 const parseResponse = (item) => {
   const response = {
     statusCode: 200,
-    body: JSON.stringify(item)
+    headers: { 'Content-Type': 'application/json' },
+    body: item
   };
 
-  return response;
+  return JSON.stringify(response);
 };
 
 const handleError = (error, code) => {
@@ -30,6 +32,7 @@ const handleError = (error, code) => {
     body: 'Couldn\'t complete operation',
     error
   };
+  return JSON.stringify(response);
 };
 
 const put = (item) => {
@@ -45,7 +48,10 @@ const put = (item) => {
   };
 
   return dynamoDB.putItem(params).promise()
-    .then(response => parseResponse(response.Attributes))
+    .then((response) => {
+      console.log('response -->', response);
+      return parseResponse(response.Attributes);
+    })
     .catch(err => handleError(err, 501));
 };
 
