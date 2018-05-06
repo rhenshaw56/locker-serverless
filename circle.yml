@@ -11,7 +11,7 @@ dependencies:
 
 test:
   override:
-    - return 0
+    - echo "test"
 
 deployment:
   staging:
