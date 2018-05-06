@@ -10,8 +10,10 @@ const invoke = (event, cb) => {
     body = {}
   } = event;
 
-  switch (action || resource) {
+  console.log({action});
+  console.log({resource});
 
+  switch (action || resource) {
   case 'create':
     return db.put(body);
 

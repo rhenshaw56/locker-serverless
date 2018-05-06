@@ -9,6 +9,10 @@ dependencies:
     - sudo apt install awscli
     - npm install
 
+test:
+  override:
+    - echo "test"
+
 deployment:
   staging:
     branch: staging
