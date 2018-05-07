@@ -1,5 +1,8 @@
 {
+  "resource": "create",
   "accessKey": "test_key_goes_here",
-  "key2": "value2",
-  "key1": "value1"
+  "body": {
+    "lockerNumber": 66,
+    "wing": "gold-coast"
+  }
 }

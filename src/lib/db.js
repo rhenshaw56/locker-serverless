@@ -1,5 +1,8 @@
 import * as AWS from 'aws-sdk';
+import dynamoDataTypes from 'dynamodb-data-types';
 import config from '../config';
+
+const attr = dynamoDataTypes.AttributeValue;
 
 AWS.config.update({
   region: 'us-west-2'
@@ -13,46 +16,45 @@ const stagingDB = config.get('staging_db');
 const productionDB = config.get('production_db');
 
 const tableName = process.env.NODE_ENV === 'production' ? productionDB : stagingDB;
-console.log({tableName});
 
 const parseResponse = (item) => {
   const response = {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
-    body: item
+    body: JSON.stringify(item)
   };
 
-  return JSON.stringify(response);
+  return response;
 };
 
 const handleError = (error, code) => {
   const response = {
     statusCode: error.statusCode || code,
     headers: { 'Content-Type': 'text/plain' },
-    body: 'Couldn\'t complete operation',
-    error
+    body: 'Couldn\'t complete operation'
   };
   return JSON.stringify(response);
 };
 
 const put = (item) => {
   const params = {
-    TableName: tableName,
-    Item: {
-      lockerNumber: item.lockerNumber,
-      wing: data.wing,
-      assignee: item.assignee || false,
-      available: !!item.assignee,
-      status: item.status || 'functional'
-    },
+    lockerNumber: item.lockerNumber,
+    wing: item.wing,
+    assignee: item.assignee || false,
+    available: !!item.assignee,
+    status: item.status ? item.status : 'functional'
   };
 
-  return dynamoDB.putItem(params).promise()
+  const data = {
+    TableName: tableName,
+    Item: attr.wrap(params)
+  };
+
+  return dynamoDB.putItem(data).promise()
     .then((response) => {
-      console.log('response -->', response);
-      return parseResponse(response.Attributes);
+      return parseResponse(params);
     })
-    .catch(err => handleError(err, 501));
+    .catch(err => err);
 };
 
 const remove = item => dynamoDB.deleteItem({
@@ -69,7 +71,7 @@ const get = item => dynamoDB.getItem({
   }
 }).then(response => parseResponse(response.Attributes)).catch(err => handleError(err, 404));
 
-export default {
+export {
   put,
   remove,
   get

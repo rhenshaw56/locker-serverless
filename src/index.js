@@ -1,36 +1,43 @@
 import config from './config';
-import * as db from './lib/db';
+import {
+  get,
+  remove,
+  put
+} from './lib/db';
 
 const apiKey = config.get('lambdaAccessKey');
 
-const invoke = (event, cb) => {
+const invoke = (event) => {
   const {
     action,
     resource,
     body = {}
   } = event;
 
-  console.log({action});
-  console.log({resource});
 
-  switch (action || resource) {
-  case 'create':
-    return db.put(body);
+  switch (resource) {
+  case '/create':
+    return put(JSON.parse(body));
 
-  case 'get':
-    return db.get(body);
+  case '/get':
+    return get(JSON.parse(body));
 
-  case 'delete':
-    return db.remove(body);
+  case '/delete':
+    return remove(JSON.parse(body));
 
   default:
-    return Promise.reject(Error('Invalid request'));
+    return Error('Invalid Request');
   }
 };
 
 module.exports.handler = (event, context, cb) => {
-  console.log({ event });
-  const { accessKey } = event;
+  const accessKey = event.headers['x-api-key'];
 
-  if (accessKey === apiKey) return invoke(event).then(response => cb(null, response));
+  if (accessKey === apiKey) {
+    invoke(event).then((response) => {
+      cb(null, response);
+    }).catch((error) => {
+      cb(null, { statusCode: 400, body: JSON.stringify(error) });
+    });
+  }
 };

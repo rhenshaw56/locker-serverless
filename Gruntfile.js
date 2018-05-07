@@ -7,7 +7,7 @@ grunt.initConfig({
   lambda_invoke: {
     custom_options: {
       options: {
-        file_name: 'src/index.js',
+        file_name: 'dist/index.js',
         event: 'event.json'
       }
     }

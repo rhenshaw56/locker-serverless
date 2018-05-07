@@ -37,6 +37,7 @@
   "dependencies": {
     "aws-sdk": "^2.233.1",
     "convict": "^4.2.0",
+    "dynamodb-data-types": "^3.0.1",
     "validatorjs": "^3.14.2"
   }
 }
