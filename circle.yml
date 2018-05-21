@@ -21,4 +21,4 @@ deployment:
   production:
     branch: production
     commands:
-      - bash ./deploy.sh seekteam-lambda
+      - sh ./deploy.sh seekteam-lambda
